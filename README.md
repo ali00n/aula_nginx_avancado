@@ -30,8 +30,8 @@
 
 ### Execução
 ```bash
-git clone [https://github.com/ali00n/aula_nginx_avancado.git]
-cd TF04 -- pasta criada para gerar o projeto
+git clone https://github.com/ali00n/aula_nginx_avancado.git
+cd aula_nginx_avancado -- caso nao esteja ja na pasta
 
 # Gerar certificados SSL no Windows via Powershell (Alternativa para Windows)
 ./scripts/generate-ssl.ps1
