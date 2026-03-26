@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TF04 E-commerce - Início</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">Loja TF04</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="carrinho.html">Carrinho</a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <h1>Bem-vindo à nossa Loja</h1>
+            <p>Os melhores produtos de tecnologia pelo melhor preço.</p>
+            <a href="produtos.html" class="btn">Ver Produtos</a>
+        </section>
+        
+        <section class="api-status">
+            <h2>Status da API Backend</h2>
+            <div id="api-info" class="card">Carregando status do backend...</div>
+        </section>
+    </main>
+
+    <script>
+        fetch('/api/info')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('api-info').innerHTML = `
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    <p><strong>Instância:</strong> ${data.instance_id}</p>
+                    <p><strong>Descrição:</strong> ${data.message}</p>
+                `;
+            })
+            .catch(err => {
+                document.getElementById('api-info').innerHTML = `<p class="error">Erro ao conectar com a API</p>`;
+            });
+    </script>
+</body>
+</html>

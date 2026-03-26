@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TF04 Admin Panel</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Admin Panel</div>
+        <nav>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Produtos</a>
+            <a href="#">Configurações</a>
+            <a href="/nginx-status" target="_blank">Métricas Nginx</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Painel de Controle</h1>
+            <div class="user-info">Administrador</div>
+        </header>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Acessos (Simulados)</h3>
+                <div class="value">1,204</div>
+            </div>
+            <div class="stat-card">
+                <h3>Vendas Hoje</h3>
+                <div class="value">R$ 4.590</div>
+            </div>
+            <div class="stat-card">
+                <h3>Status do Proxy</h3>
+                <div class="value status-ok">Saudável</div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Distribuição de Carga (Backend API)</h2>
+            <div class="info-text">Pressione o botão para enviar múltiplas requisições e ver o Load Balancer atuando.</div>
+            <button id="btn-test" class="btn">Testar Carga</button>
+            <button id="btn-clear" class="btn btn-secondary">Limpar</button>
+            
+            <div class="results-container" id="results">
+                <!-- Resultados das chamadas API aparecerão aqui -->
+            </div>
+            
+            <div class="summary" id="summary">
+                <!-- Resumo aparecerá aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btnTest = document.getElementById('btn-test');
+        const btnClear = document.getElementById('btn-clear');
+        const results = document.getElementById('results');
+        const summary = document.getElementById('summary');
+        
+        let counts = {};
+
+        function updateSummary() {
+            let html = '<h3>Resumo de Instâncias:</h3><ul>';
+            for (let id in counts) {
+                html += `<li><strong>${id}</strong>: ${counts[id]} requisições</li>`;
+            }
+            html += '</ul>';
+            summary.innerHTML = html;
+        }
+
+        btnTest.addEventListener('click', async () => {
+            btnTest.disabled = true;
+            btnTest.innerText = 'Testando...';
+            
+            for (let i = 0; i < 10; i++) {
+                try {
+                    const response = await fetch('/api/info');
+                    const data = await response.json();
+                    
+                    if (data.instance_id) {
+                        counts[data.instance_id] = (counts[data.instance_id] || 0) + 1;
+                        
+                        const div = document.createElement('div');
+                        div.className = 'result-item';
+                        div.innerHTML = `Req #${i+1}: Respondido por <strong>${data.instance_id}</strong>`;
+                        results.appendChild(div);
+                    }
+                } catch (err) {
+                    const div = document.createElement('div');
+                    div.className = 'result-item error';
+                    div.innerHTML = `Req #${i+1}: Falha na conexão`;
+                    results.appendChild(div);
+                }
+                
+                updateSummary();
+            }
+            
+            btnTest.disabled = false;
+            btnTest.innerText = 'Testar Carga';
+        });
+
+        btnClear.addEventListener('click', () => {
+            results.innerHTML = '';
+            summary.innerHTML = '';
+            counts = {};
+        });
+    </script>
+</body>
+</html>

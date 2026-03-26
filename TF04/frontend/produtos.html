@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TF04 E-commerce - Produtos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">Loja TF04</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="carrinho.html">Carrinho</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Nossos Produtos</h1>
+        <div class="product-grid" id="product-list">
+            <!-- Products will be loaded here via API -->
+            <p>Carregando produtos da API...</p>
+        </div>
+    </main>
+
+    <script>
+        fetch('/api/produtos')
+            .then(res => res.json())
+            .then(data => {
+                const grid = document.getElementById('product-list');
+                grid.innerHTML = '';
+                data.produtos.forEach(p => {
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <h3>${p.nome}</h3>
+                            <p>${p.descricao}</p>
+                            <p class="price">R$ ${p.preco.toFixed(2)}</p>
+                            <button class="btn">Comprar</button>
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => {
+                document.getElementById('product-list').innerHTML = `<p class="error">Erro ao carregar produtos. A API pode estar offline.</p>`;
+            });
+    </script>
+</body>
+</html>
