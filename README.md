@@ -81,6 +81,7 @@ Desenvolvido por: Alisson Ribeiro Almeida
 
 # ESTRUTURA DO PROJETO
 
+```text
 NGINX_AVANCADO/
 ├── backend/
 │   ├── app.py
@@ -113,3 +114,4 @@ NGINX_AVANCADO/
 │   ├── load-balancing.md
 │   └── nginx-config.md
 └── docker-compose.yml
+```
