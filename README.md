@@ -76,6 +76,40 @@ curl http://localhost/api/info
 - **Detalhes de Load Balance:** [Load Balancing Specs](./docs/load-balancing.md)
 - **Detalhes de Setup do Nginx e Hardening:** [Nginx Config Specs](./docs/nginx-config.md)
 
-Desenvolvido por: Professor Alexandre Tavares - UniFAAT (Estruturação Base) e Aluno
-Versão: 1.0 - Semestre 2026.1
-Última atualização: Março 2026
+Desenvolvido por: Alisson Ribeiro Almeida
+Última atualização: 26/03/2026
+
+# ESTRUTURA DO PROJETO
+
+NGINX_AVANCADO/
+├── backend/
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── config.py
+│   └── logger.py
+├── frontend/
+│   ├── index.html
+│   ├── produtos.html
+│   ├── carrinho.html
+│   ├── css/
+│   │   └── style.css
+│   └── Dockerfile
+├── admin/
+│   ├── dashboard.html
+│   └── Dockerfile
+├── nginx/
+│   ├── nginx.conf
+│   ├── conf.d/
+│   │   ├── load-balancer.conf
+│   │   └── ssl.conf
+│   └── ssl/
+│       ├── cert.pem
+│       └── key.pem
+├── scripts/
+│   ├── generate-ssl.ps1
+│   └── generate-ssl.sh
+├── docs/
+│   ├── load-balancing.md
+│   └── nginx-config.md
+└── docker-compose.yml
